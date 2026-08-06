@@ -1,0 +1,5 @@
+body{font-family:Arial,sans-serif;background:#F5F7F5;margin:0}
+header{background:#0B6B3A;color:#fff;padding:20px;text-align:center}
+.card{max-width:700px;margin:30px auto;background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 10px #0002}
+button{background:#0B6B3A;color:#fff;border:0;padding:12px 16px;border-radius:10px;margin:5px;cursor:pointer}
+.saldo{font-size:1.2em;margin:20px 0}
