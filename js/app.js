@@ -1,1 +1,0 @@
-const h=new Date().getHours();let t=h<12?'Bom dia':h<18?'Boa tarde':'Boa noite';document.getElementById('greet').textContent=`${t}, Evandro 👋`;if('serviceWorker'in navigator){navigator.serviceWorker.register('service-worker.js');}
