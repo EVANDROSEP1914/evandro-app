@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#087f23">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="assets/icons/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+  <title>EVANDRO APP</title>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="brand">
+        <img src="assets/icons/icon-192.png">
+        <div><b>EVANDRO APP</b><small>Meu Controle Financeiro</small></div>
+      </div>
+      <button id="config">⚙️</button>
+    </header>
+    <main>
+      <section class="hero">
+        <div><small id="greeting">Bom dia</small><h1>Olá, Evandro! 👋</h1><p id="monthLabel"></p></div>
+        <div class="month"><button id="prev">‹</button><b id="monthShort"></b><button id="next">›</button></div>
+      </section>
+
+      <section class="balance">
+        <div>Saldo do mês <button id="eye">👁️</button></div>
+        <strong id="balance">R$ 0,00</strong>
+        <div class="bar"><i id="bar"></i></div>
+        <footer><span>Receitas <b id="income">R$ 0,00</b></span><span>Despesas <b id="expense">R$ 0,00</b></span></footer>
+      </section>
+
+      <section class="actions">
+        <button id="addIncome">＋ <b>Receita</b><small>Adicionar entrada</small></button>
+        <button id="addExpense">− <b>Despesa</b><small>Adicionar gasto</small></button>
+      </section>
+
+      <section class="cards">
+        <article>💰<div><small>Salário</small><b>R$ 5.500,00</b></div></article>
+        <article>🛒<div><small>Vale-alimentação</small><b>R$ 650,00</b></div></article>
+        <article>🏦<div><small>Banco</small><b>ITAÚ</b></div></article>
+        <article>💳<div><small>Cartão</small><b>Débito</b></div></article>
+      </section>
+
+      <!-- PAINEL DE ALERTA -->
+      <div id="painel-alerta" class="card-alerta" style="display: none;">
+        ⚠️ <strong>Atenção Evandro:</strong> Você possui despesas fixas com vencimento próximo/pendente!
+      </div>
+
+      <!-- SEÇÃO DE GASTOS FIXOS -->
+      <div class="section">
+        <div><small>Compromissos</small><h2>Gastos Fixos (Dia 10)</h2></div>
+      </div>
+      <section class="secao-despesas">
+        <table class="tabela-despesas">
+          <thead>
+            <tr>
+              <th>Despesa</th>
+              <th>Valor</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="lista-despesas-fixas">
+            <!-- Os itens serão inseridos aqui via script -->
+          </tbody>
+          <tfoot>
+            <tr>
+              <td><strong>Total Fixos</strong></td>
+              <td id="total-fixo"><strong>R$ 1.800,00</strong></td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </section>
+
+      <div class="section">
+        <div><small>Movimentações</small><h2>Últimos lançamentos</h2></div>
+        <button id="report">Ver relatório</button>
+      </div>
+      <section id="list"></section>
+
+      <div class="section">
+        <div><small>Agenda</small><h2>Vencimentos</h2></div>
+        <button id="calendar">Calendário</button>
+      </div>
+      <section id="bills"></section>
+    </main>
+
+    <nav>
+      <button class="active">⌂<small>Início</small></button>
+      <button id="navReport">⇄<small>Lançamentos</small></button>
+      <button id="navAdd" class="plus">＋</button>
+      <button id="navCalendar">▦<small>Calendário</small></button>
+      <button id="navConfig">⚙<small>Config.</small></button>
+    </nav>
+  </div>
+
+  <div id="backdrop" class="backdrop" hidden></div>
+
+  <div id="modal" class="modal" hidden>
+    <div class="modalHead">
+      <div><small id="modalSmall">Novo lançamento</small><h2 id="modalTitle">Nova despesa</h2></div>
+      <button id="close">×</button>
+    </div>
+    <form id="form">
+      <input type="hidden" id="type">
+      <label>Descrição<input id="desc" required placeholder="Ex.: Mercado"></label>
+      <label>Valor<input id="amount" inputmode="decimal" required placeholder="0,00"></label>
+      <div class="row">
+        <label>Data<input id="date" type="date" required></label>
+        <label>Categoria
+          <select id="cat">
+            <option>Mercado</option><option>Alimentação</option><option>Moradia</option>
+            <option>Transporte</option><option>Contas</option><option>Lazer</option>
+            <option>Saúde</option><option>Compras</option><option>Salário</option>
+            <option>Vale-alimentação</option><option>Outros</option>
+          </select>
+        </label>
+      </div>
+      <label id="kindLabel">Tipo de gasto<select id="kind"><option value="variavel">Variável</option><option value="fixo">Fixo</option></select></label>
+      <label>Conta<select id="account"><option>ITAÚ — Débito</option><option>Vale-alimentação</option></select></label>
+      <button class="primary">Salvar lançamento</button>
+    </form>
+  </div>
+
+  <div id="reportModal" class="modal" hidden>
+    <div class="modalHead"><div><small>Resumo</small><h2>Relatório do mês</h2></div><button class="closeAny">×</button></div>
+    <div id="reportBody"></div>
+  </div>
+
+  <div id="billModal" class="modal" hidden>
+    <div class="modalHead"><div><small>Agenda financeira</small><h2>Vencimento</h2></div><button class="closeAny">×</button></div>
+    <form id="billForm">
+      <label>Conta / compromisso<input id="billDesc" required placeholder="Ex.: Internet"></label>
+      <div class="row">
+        <label>Valor<input id="billAmount" inputmode="decimal" required placeholder="0,00"></label>
+        <label>Vencimento<input id="billDate" type="date" required></label>
+      </div>
+      <button class="primary">Adicionar vencimento</button>
+    </form>
+    <div id="billList"></div>
+  </div>
+
+  <div id="configModal" class="modal" hidden>
+    <div class="modalHead"><div><small>Preferências</small><h2>Configurações</h2></div><button class="closeAny">×</button></div>
+    <div class="settings">
+      <p>Banco principal <b>ITAÚ</b></p>
+      <p>Cartão <b>Débito</b></p>
+      <p>Uso <b>Pessoal</b></p>
+      <p>Salário <b>R$ 5.500,00</b></p>
+      <p>Vale-alimentação <b>R$ 650,00</b></p>
+    </div>
+    <button id="clear" class="danger">Apagar dados</button>
+  </div>
+
+  <div id="toast"></div>
+
+  <script src="js/app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js');
+    }
+  </script>
+</body>
+</html>
