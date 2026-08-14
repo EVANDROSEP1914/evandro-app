@@ -84,7 +84,6 @@
 
         var meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
-        // Usa a chave original das contas para recuperar tudo o que você já tinha cadastrado
         function getChaveStorage() {
             return 'contas_' + anoAtual + '_' + mesAtual;
         }
@@ -92,12 +91,15 @@
         function getContas() {
             var dados = localStorage.getItem(getChaveStorage());
             
-            // Se o mês atual ainda estiver vazio, tenta recuperar da lista antiga sem mês (retrocompatibilidade)
-            if (!dados && mesAtual === dataAtual.getMonth() && anoAtual === dataAtual.getFullYear()) {
-                var dadosAntigos = localStorage.getItem('contas');
-                if (dadosAntigos) {
-                    localStorage.setItem(getChaveStorage(), dadosAntigos);
-                    return JSON.parse(dadosAntigos);
+            // Busca emergencial: Varre todas as chaves antigas do navegador para trazer seus dados de volta!
+            if (!dados) {
+                var chavesAntigas = ['contas', 'contas_v3_' + anoAtual + '_' + mesAtual];
+                for (var i = 0; i < chavesAntigas.length; i++) {
+                    var antigo = localStorage.getItem(chavesAntigas[i]);
+                    if (antigo && antigo !== '[]') {
+                        localStorage.setItem(getChaveStorage(), antigo);
+                        return JSON.parse(antigo);
+                    }
                 }
             }
             return dados ? JSON.parse(dados) : [];
