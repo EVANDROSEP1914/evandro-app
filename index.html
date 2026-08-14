@@ -2,70 +2,47 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evandro App - Controle Financeiro</title>
     <style>
-        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: #f4f6f8; margin: 0; padding: 16px; display: flex; justify-content: center; min-height: 100vh; }
-        .container { background: #ffffff; padding: 24px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 20px; }
-        
-        /* Topo */
-        .header-app .user-info span { font-size: 11px; font-weight: 700; color: #8e8e93; letter-spacing: 0.8px; text-transform: uppercase; }
-        .header-app .user-info h1 { margin: 4px 0 16px 0; font-size: 24px; color: #1c1c1e; font-weight: 800; }
-        .header-mes { display: flex; align-items: center; justify-content: space-between; background: #f2f2f7; padding: 6px 12px; border-radius: 14px; }
-        .btn-nav { background: #ffffff; border: none; font-size: 16px; font-weight: bold; border-radius: 10px; width: 36px; height: 36px; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.06); color: #1c1c1e; display: flex; align-items: center; justify-content: center; }
-        .btn-nav:active { transform: scale(0.95); }
-        #labelMesAno { font-weight: 700; color: #1c1c1e; font-size: 15px; }
-        
-        /* Card Principal */
-        .card-saldo-verde { background: linear-gradient(135deg, #0d8a3d, #05632a); color: white; padding: 22px; border-radius: 20px; box-shadow: 0 10px 20px rgba(13, 138, 61, 0.25); }
-        .card-saldo-verde span { font-size: 13px; opacity: 0.9; font-weight: 500; }
-        .card-saldo-verde h2 { font-size: 34px; margin: 6px 0 18px 0; font-weight: 800; letter-spacing: -0.5px; }
-        .sub-totais { display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 14px; }
-        .sub-totais small { display: block; font-size: 12px; opacity: 0.85; margin-bottom: 2px; }
-        .sub-totais strong { font-size: 16px; font-weight: 700; }
-        
-        /* Formulário */
-        .form-conta { display: flex; flex-direction: column; gap: 12px; }
-        .form-conta input { padding: 14px 16px; border: 1.5px solid #e5e5ea; border-radius: 12px; font-size: 15px; outline: none; transition: border-color 0.2s; background: #fafafa; }
-        .form-conta input:focus { border-color: #0d8a3d; background: #fff; }
-        .form-conta button { background: #1c1c1e; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 15px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .form-conta button:active { transform: scale(0.98); }
-        
-        /* Lista e Filtros */
-        .secao-lista { display: flex; flex-direction: column; gap: 12px; }
-        .lista-header { display: flex; justify-content: space-between; align-items: center; }
-        .lista-header h3 { font-size: 16px; margin: 0; color: #1c1c1e; font-weight: 700; }
-        .filtros { display: flex; gap: 6px; }
-        .btn-filtro { background: #f2f2f7; border: none; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; color: #8e8e93; cursor: pointer; }
-        .btn-filtro.ativo { background: #1c1c1e; color: #ffffff; }
-
-        .lista-contas { display: flex; flex-direction: column; gap: 10px; max-height: 300px; overflow-y: auto; padding-right: 2px; }
-        .item-conta { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: #ffffff; border-radius: 14px; border: 1px solid #efeef4; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
-        .item-conta.paga { background: #f8fcf9; border-color: #d1ebd9; }
-        .item-conta.paga .info-item strong { text-decoration: line-through; color: #8e8e93; }
-        .info-item { display: flex; flex-direction: column; gap: 2px; }
-        .info-item strong { font-size: 15px; color: #1c1c1e; font-weight: 600; }
-        .info-item small { font-size: 13px; color: #0d8a3d; font-weight: 700; }
-        
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: #f4f6f8; margin: 0; padding: 16px; display: flex; justify-content: center; }
+        .container { background: #ffffff; padding: 20px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 400px; }
+        .header-app .user-info span { font-size: 11px; font-weight: bold; color: #8e8e93; letter-spacing: 0.5px; }
+        .header-app .user-info h1 { margin: 4px 0 16px 0; font-size: 22px; color: #1c1c1e; }
+        .header-mes { display: flex; align-items: center; justify-content: space-between; background: #f2f2f7; padding: 8px 12px; border-radius: 12px; margin-bottom: 20px; }
+        .btn-nav { background: #ffffff; border: none; font-size: 14px; border-radius: 8px; width: 32px; height: 32px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        #labelMesAno { font-weight: 600; color: #1c1c1e; font-size: 15px; }
+        .card-saldo-verde { background: linear-gradient(135deg, #0d8a3d, #05632a); color: white; padding: 20px; border-radius: 16px; margin-bottom: 20px; box-shadow: 0 8px 16px rgba(13, 138, 61, 0.2); }
+        .card-saldo-verde span { font-size: 13px; opacity: 0.9; }
+        .card-saldo-verde h2 { font-size: 30px; margin: 8px 0 16px 0; font-weight: bold; }
+        .sub-totais { display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 12px; }
+        .sub-totais small { display: block; font-size: 12px; opacity: 0.8; }
+        .sub-totais strong { font-size: 15px; }
+        .form-conta { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .form-conta input { padding: 12px 14px; border: 1px solid #e5e5ea; border-radius: 10px; font-size: 14px; outline: none; }
+        .form-conta button { background: #1c1c1e; color: white; border: none; padding: 14px; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        .lista-contas { display: flex; flex-direction: column; gap: 10px; }
+        .item-conta { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #f9f9fb; border-radius: 10px; border: 1px solid #e5e5ea; }
+        .item-conta.paga { opacity: 0.5; text-decoration: line-through; background: #eef9f2; }
+        .info-item { display: flex; flex-direction: column; }
+        .info-item strong { font-size: 14px; color: #1c1c1e; }
+        .info-item small { font-size: 12px; color: #8e8e93; }
         .acoes-item { display: flex; gap: 8px; align-items: center; }
-        .btn-pago { background: #eef9f2; color: #0d8a3d; border: 1px solid #d1ebd9; padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; }
-        .item-conta.paga .btn-pago { background: #0d8a3d; color: #ffffff; border: none; }
-        .btn-del { background: #fff0f0; color: #ff3b30; border: 1px solid #ffd6d6; padding: 8px 10px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; }
-        .vazio-msg { text-align: center; color: #8e8e93; font-size: 14px; padding: 20px 0; margin: 0; }
+        .btn-pago { background: #0d8a3d; color: white; border: none; padding: 6px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+        .btn-del { background: #ff3b30; color: white; border: none; padding: 6px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Topo -->
+        <!-- Header -->
         <div class="header-app">
             <div class="user-info">
                 <span>BOM DIA</span>
                 <h1>Olá, Evandro! 👋</h1>
             </div>
+            
+            <!-- Navegação de Mês -->
             <div class="header-mes">
                 <button class="btn-nav" onclick="alterarMes(-1)">❮</button>
                 <span id="labelMesAno">...</span>
@@ -73,9 +50,9 @@
             </div>
         </div>
 
-        <!-- Card de Saldo -->
+        <!-- Card Verde -->
         <div class="card-saldo-verde">
-            <span>Saldo das Contas</span>
+            <span>Saldo do mês</span>
             <h2 id="saldoTotal">R$ 0,00</h2>
             <div class="sub-totais">
                 <div>
@@ -89,45 +66,46 @@
             </div>
         </div>
 
-        <!-- Inserção -->
+        <!-- Form de Inserção -->
         <form id="formConta" class="form-conta" onsubmit="adicionarConta(event)">
-            <input type="text" id="descConta" placeholder="Descrição da conta (ex: Luz, Mercado)" required autocomplete="off">
+            <input type="text" id="descConta" placeholder="Descrição da conta (ex: Luz)" required>
             <input type="number" id="valorConta" placeholder="Valor R$" step="0.01" required>
             <button type="submit">+ Adicionar Conta</button>
         </form>
 
-        <!-- Lista -->
-        <div class="secao-lista">
-            <div class="lista-header">
-                <h3>Minhas Contas</h3>
-                <div class="filtros">
-                    <button class="btn-filtro ativo" onclick="filtrar('todas', this)">Todas</button>
-                    <button class="btn-filtro" onclick="filtrar('pendentes', this)">A Pagar</button>
-                    <button class="btn-filtro" onclick="filtrar('pagas', this)">Pagas</button>
-                </div>
-            </div>
-            <div id="listaContas" class="lista-contas"></div>
-        </div>
+        <!-- Lista de Contas -->
+        <div id="listaContas" class="lista-contas"></div>
     </div>
 
     <script>
-        // Desativar Service Worker para evitar travamento de cache antigo
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                for (let r of registrations) { r.unregister(); }
-            });
-        }
-
         var dataAtual = new Date();
         var mesAtual = dataAtual.getMonth();
         var anoAtual = dataAtual.getFullYear();
-        var filtroAtual = 'todas';
 
         var meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
-        function getChaveStorage() { return 'contas_v3_' + anoAtual + '_' + mesAtual; }
-        function getContas() { var d = localStorage.getItem(getChaveStorage()); return d ? JSON.parse(d) : []; }
-        function salvarContas(c) { localStorage.setItem(getChaveStorage(), JSON.stringify(c)); }
+        // Usa a chave original das contas para recuperar tudo o que você já tinha cadastrado
+        function getChaveStorage() {
+            return 'contas_' + anoAtual + '_' + mesAtual;
+        }
+
+        function getContas() {
+            var dados = localStorage.getItem(getChaveStorage());
+            
+            // Se o mês atual ainda estiver vazio, tenta recuperar da lista antiga sem mês (retrocompatibilidade)
+            if (!dados && mesAtual === dataAtual.getMonth() && anoAtual === dataAtual.getFullYear()) {
+                var dadosAntigos = localStorage.getItem('contas');
+                if (dadosAntigos) {
+                    localStorage.setItem(getChaveStorage(), dadosAntigos);
+                    return JSON.parse(dadosAntigos);
+                }
+            }
+            return dados ? JSON.parse(dados) : [];
+        }
+
+        function salvarContas(contas) {
+            localStorage.setItem(getChaveStorage(), JSON.stringify(contas));
+        }
 
         function renderizarApp() {
             document.getElementById('labelMesAno').innerText = meses[mesAtual] + " de " + anoAtual;
@@ -139,33 +117,27 @@
             var totalPendente = 0;
             var totalPago = 0;
 
-            contas.forEach(function(c) {
-                var val = parseFloat(c.valor) || 0;
-                if (c.paga) { totalPago += val; } else { totalPendente += val; }
-            });
-
-            var contasFiltradas = contas.filter(function(c) {
-                if (filtroAtual === 'pendentes') return !c.paga;
-                if (filtroAtual === 'pagas') return c.paga;
-                return true;
-            });
-
-            if (contasFiltradas.length === 0) {
-                listaEl.innerHTML = '<p class="vazio-msg">Nenhuma conta encontrada nesta visualização.</p>';
+            if (contas.length === 0) {
+                listaEl.innerHTML = '<p style="text-align:center; color:#8e8e93; font-size:14px;">Nenhuma conta cadastrada neste mês.</p>';
             } else {
-                contasFiltradas.forEach(function(c) {
-                    var indexOriginal = contas.indexOf(c);
-                    var val = parseFloat(c.valor) || 0;
+                contas.forEach(function(c, index) {
+                    var valor = parseFloat(c.valor) || 0;
+                    if (c.paga) {
+                        totalPago += valor;
+                    } else {
+                        totalPendente += valor;
+                    }
+
                     var itemDiv = document.createElement('div');
                     itemDiv.className = 'item-conta ' + (c.paga ? 'paga' : '');
                     itemDiv.innerHTML = `
                         <div class="info-item">
                             <strong>${c.descricao}</strong>
-                            <small>R$ ${val.toFixed(2).replace('.', ',')}</small>
+                            <small>R$ ${valor.toFixed(2).replace('.', ',')}</small>
                         </div>
                         <div class="acoes-item">
-                            <button class="btn-pago" onclick="alternarPago(${indexOriginal})">${c.paga ? '✓ PAGO' : 'PAGAR'}</button>
-                            <button class="btn-del" onclick="removerConta(${indexOriginal})">✕</button>
+                            <button class="btn-pago" onclick="alternarPago(${index})">${c.paga ? 'PAGO' : 'PAGAR'}</button>
+                            <button class="btn-del" onclick="removerConta(${index})">✕</button>
                         </div>
                     `;
                     listaEl.appendChild(itemDiv);
@@ -180,43 +152,45 @@
 
         function adicionarConta(e) {
             e.preventDefault();
-            var desc = document.getElementById('descConta');
-            var val = document.getElementById('valorConta');
+            var descInput = document.getElementById('descConta');
+            var valInput = document.getElementById('valorConta');
+
             var contas = getContas();
+            contas.push({
+                descricao: descInput.value,
+                valor: parseFloat(valInput.value),
+                paga: false
+            });
 
-            contas.push({ descricao: desc.value, valor: parseFloat(val.value), paga: false });
             salvarContas(contas);
-
-            desc.value = '';
-            val.value = '';
+            descInput.value = '';
+            valInput.value = '';
             renderizarApp();
         }
 
-        function alternarPago(i) {
-            var c = getContas();
-            c[i].paga = !c[i].paga;
-            salvarContas(c);
+        function alternarPago(index) {
+            var contas = getContas();
+            contas[index].paga = !contas[index].paga;
+            salvarContas(contas);
             renderizarApp();
         }
 
-        function removerConta(i) {
-            var c = getContas();
-            c.splice(i, 1);
-            salvarContas(c);
+        function removerConta(index) {
+            var contas = getContas();
+            contas.splice(index, 1);
+            salvarContas(contas);
             renderizarApp();
         }
 
-        function alterarMes(dir) {
-            mesAtual += dir;
-            if (mesAtual < 0) { mesAtual = 11; anoAtual--; }
-            else if (mesAtual > 11) { mesAtual = 0; anoAtual++; }
-            renderizarApp();
-        }
-
-        function filtrar(tipo, el) {
-            filtroAtual = tipo;
-            document.querySelectorAll('.btn-filtro').forEach(b => b.classList.remove('ativo'));
-            el.classList.add('ativo');
+        function alterarMes(direcao) {
+            mesAtual += direcao;
+            if (mesAtual < 0) {
+                mesAtual = 11;
+                anoAtual--;
+            } else if (mesAtual > 11) {
+                mesAtual = 0;
+                anoAtual++;
+            }
             renderizarApp();
         }
 
