@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evandro App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- TOPO DO APP COM NAVEGAÇÃO DE MÊS/ANO -->
+        <div class="topo-app">
+            <button onclick="alterarMes(-1)" class="btn-navegacao">❮</button>
+            <h1 id="labelMesAno">Carregando...</h1>
+            <button onclick="alterarMes(1)" class="btn-navegacao">❯</button>
+        </div>
+
+        <!-- RESUMO DOS TOTAIS -->
+        <div class="container-totais">
+            <div class="card-total pendente">
+                <span>Pendente</span>
+                <span id="totalPendente">R$ 0,00</span>
+            </div>
+            <div class="card-total pago">
+                <span>Pago</span>
+                <span id="totalPago">R$ 0,00</span>
+            </div>
+        </div>
+
+        <!-- FORMULÁRIO PARA ADICIONAR CONTA -->
+        <form id="formConta" class="form-conta">
+            <input type="text" id="descConta" placeholder="Descrição da conta (ex: Luz)" required>
+            <input type="number" id="valorConta" placeholder="Valor R$" step="0.01" required>
+            <button type="submit" class="btn-add">Adicionar</button>
+        </form>
+
+        <!-- LISTA DE CONTAS -->
+        <div id="listaContas" class="lista-contas">
+            <!-- As contas serão carregadas aqui via app.js -->
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

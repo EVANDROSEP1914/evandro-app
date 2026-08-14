@@ -1,56 +1,4 @@
 // ==========================================
-<<<<<<< HEAD
-// ESTRUTURA DE DADOS E MIGRAÇÃO
-// ==========================================
-
-let dataAtual = new Date();
-let mesSelecionado = dataAtual.getMonth() + 1; // 1 a 12
-let anoSelecionado = dataAtual.getFullYear();
-
-// Função para garantir que a chave do mês fique no formato padrão "AAAA-MM" (Ex: "2026-08")
-function getChaveMesAtual() {
-    const mesFormatado = String(mesSelecionado).padStart(2, '0');
-    return `${anoSelecionado}-${mesFormatado}`;
-}
-
-// Carrega as contas e aplica a MIGRAÇÃO AUTOMÁTICA
-function carregarEConvertContas() {
-    let contasSalvas = JSON.parse(localStorage.getItem('contas_app')) || [];
-
-    // Migra contas antigas que não possuem a propriedade pagamentosMensais
-    contasSalvas = contasSalvas.map(conta => {
-        if (!conta.pagamentosMensais) {
-            conta.pagamentosMensais = {};
-            
-            // Se a conta antiga tinha o status de "paga", define APENAS para o mês atual
-            if (conta.paga === true) {
-                const chaveAtual = getChaveMesAtual();
-                conta.pagamentosMensais[chaveAtual] = true;
-            }
-            delete conta.paga; // Remove a propriedade antiga
-        }
-        return conta;
-    });
-
-    localStorage.setItem('contas_app', JSON.stringify(contasSalvas));
-    return contasSalvas;
-}
-
-let contas = carregarEConvertContas();
-
-// Formata o valor numérico para R$
-function formatarMoeda(valor) {
-    return Number(valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-}
-
-// ==========================================
-// FUNÇÕES DE AÇÃO (ADICIONAR / ALTERAR / REMOVER)
-// ==========================================
-
-function adicionarConta(descricao, valor) {
-    if (!descricao || !valor) return;
-
-=======
 // ESTRUTURA DE DADOS E ESTADO GLOBAL
 // ==========================================
 
@@ -84,17 +32,12 @@ function formatarMoeda(valor) {
 function adicionarConta(descricao, valor) {
     if (!descricao || !valor) return;
 
->>>>>>> f6e5d3c (Fix: JS simplificado para carregar mes e contas)
     const novaConta = {
         id: Date.now(),
         descricao: descricao,
         valor: parseFloat(valor),
-<<<<<<< HEAD
-        pagamentosMensais: {} // Objeto vazio: nasce pendente em todos os meses
-=======
         // Guarda o status de cada mês individualmente
         pagamentosMensais: {} 
->>>>>>> f6e5d3c (Fix: JS simplificado para carregar mes e contas)
     };
 
     contas.push(novaConta);
@@ -102,10 +45,7 @@ function adicionarConta(descricao, valor) {
     renderizarApp();
 }
 
-<<<<<<< HEAD
-=======
 // Alterna o status de pagamento APENAS para o mês e ano selecionados
->>>>>>> f6e5d3c (Fix: JS simplificado para carregar mes e contas)
 function alternarStatusPagamento(idConta) {
     const chaveMes = getChaveMesAtual();
 
@@ -114,14 +54,8 @@ function alternarStatusPagamento(idConta) {
             if (!conta.pagamentosMensais) {
                 conta.pagamentosMensais = {};
             }
-<<<<<<< HEAD
-            // Inverte OBRIGATORIAMENTE o status APENAS do mês selecionado
-            const statusAtual = conta.pagamentosMensais[chaveMes] === true;
-            conta.pagamentosMensais[chaveMes] = !statusAtual;
-=======
             // Inverte o status atual daquele mês específico
             conta.pagamentosMensais[chaveMes] = !conta.pagamentosMensais[chaveMes];
->>>>>>> f6e5d3c (Fix: JS simplificado para carregar mes e contas)
         }
         return conta;
     });
@@ -130,20 +64,14 @@ function alternarStatusPagamento(idConta) {
     renderizarApp();
 }
 
-<<<<<<< HEAD
-=======
 // Remove uma conta permanentemente
->>>>>>> f6e5d3c (Fix: JS simplificado para carregar mes e contas)
 function removerConta(idConta) {
     contas = contas.filter(conta => conta.id !== idConta);
     salvarDados();
     renderizarApp();
 }
 
-<<<<<<< HEAD
-=======
 // Salva a lista de contas no LocalStorage
->>>>>>> f6e5d3c (Fix: JS simplificado para carregar mes e contas)
 function salvarDados() {
     localStorage.setItem('contas_app', JSON.stringify(contas));
 }
@@ -165,11 +93,7 @@ function alterarMes(delta) {
 }
 
 // ==========================================
-<<<<<<< HEAD
-// RENDERIZAÇÃO DA TELA
-=======
 // RENDERIZAÇÃO DA INTERFACE (TELA)
->>>>>>> f6e5d3c (Fix: JS simplificado para carregar mes e contas)
 // ==========================================
 
 function renderizarApp() {
@@ -183,10 +107,7 @@ function renderizarApp() {
         "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
     ];
 
-<<<<<<< HEAD
-=======
     // Atualiza o topo com Mês e Ano
->>>>>>> f6e5d3c (Fix: JS simplificado para carregar mes e contas)
     if (labelMesAno) {
         labelMesAno.innerText = `${nomesMeses[mesSelecionado - 1]} de ${anoSelecionado}`;
     }
@@ -203,34 +124,20 @@ function renderizarApp() {
         }
 
         contas.forEach(conta => {
-<<<<<<< HEAD
-            // Checa EXCLUSIVAMENTE o mês atual
-            const estaPagaNoMes = conta.pagamentosMensais && conta.pagamentosMensais[chaveMes] === true;
-
-            if (estaPagaNoMes) {
-=======
             // Verifica se a conta está paga NO MÊS SELECIONADO
             const estaPaga = conta.pagamentosMensais && conta.pagamentosMensais[chaveMes] === true;
 
             if (estaPaga) {
->>>>>>> f6e5d3c (Fix: JS simplificado para carregar mes e contas)
                 totalPago += conta.valor;
             } else {
                 totalPendente += conta.valor;
             }
 
             const itemDiv = document.createElement('div');
-<<<<<<< HEAD
-            itemDiv.className = `item-conta ${estaPagaNoMes ? 'paga' : 'pendente'}`;
-            itemDiv.innerHTML = `
-                <div class="info-conta">
-                    <input type="checkbox" ${estaPagaNoMes ? 'checked' : ''} onchange="alternarStatusPagamento(${conta.id})">
-=======
             itemDiv.className = `item-conta ${estaPaga ? 'paga' : 'pendente'}`;
             itemDiv.innerHTML = `
                 <div class="info-conta">
                     <input type="checkbox" ${estaPaga ? 'checked' : ''} onchange="alternarStatusPagamento(${conta.id})">
->>>>>>> f6e5d3c (Fix: JS simplificado para carregar mes e contas)
                     <span class="descricao">${conta.descricao}</span>
                     <span class="valor">${formatarMoeda(conta.valor)}</span>
                 </div>
@@ -240,19 +147,12 @@ function renderizarApp() {
         });
     }
 
-<<<<<<< HEAD
-=======
     // Atualiza os totais na tela
->>>>>>> f6e5d3c (Fix: JS simplificado para carregar mes e contas)
     if (totalPendenteEl) totalPendenteEl.innerText = formatarMoeda(totalPendente);
     if (totalPagoEl) totalPagoEl.innerText = formatarMoeda(totalPago);
 }
 
-<<<<<<< HEAD
-// Evento Inicial
-=======
 // Escuta o envio do formulário para adicionar conta
->>>>>>> f6e5d3c (Fix: JS simplificado para carregar mes e contas)
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('formConta');
     if (form) {

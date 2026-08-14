@@ -1,59 +1,61 @@
 // ==========================================
-// ESTRUTURA DE DADOS E MIGRAÇÃO
+// ESTADO GLOBAL E DATAS
 // ==========================================
+var dataAtual = new Date();
+var mesSelecionado = dataAtual.getMonth() + 1; // 1 a 12
+var anoSelecionado = dataAtual.getFullYear();
 
-let dataAtual = new Date();
-let mesSelecionado = dataAtual.getMonth() + 1; // 1 a 12
-let anoSelecionado = dataAtual.getFullYear();
-
-// Função para garantir que a chave do mês fique no formato padrão "AAAA-MM" (Ex: "2026-08")
+// Formato da chave: "2026-08"
 function getChaveMesAtual() {
-    const mesFormatado = String(mesSelecionado).padStart(2, '0');
-    return `${anoSelecionado}-${mesFormatado}`;
+    var m = mesSelecionado < 10 ? '0' + mesSelecionado : mesSelecionado;
+    return anoSelecionado + '-' + m;
 }
 
-// Carrega as contas e aplica a MIGRAÇÃO AUTOMÁTICA
-function carregarEConvertContas() {
-    let contasSalvas = JSON.parse(localStorage.getItem('contas_app')) || [];
+// Carregar contas do localStorage com migração segura
+function carregarContas() {
+    try {
+        var dados = localStorage.getItem('contas_app');
+        var contasSalvas = dados ? JSON.parse(dados) : [];
 
-    // Migra contas antigas que não possuem a propriedade pagamentosMensais
-    contasSalvas = contasSalvas.map(conta => {
-        if (!conta.pagamentosMensais) {
-            conta.pagamentosMensais = {};
-            
-            // Se a conta antiga tinha o status de "paga", define APENAS para o mês atual
-            if (conta.paga === true) {
-                const chaveAtual = getChaveMesAtual();
-                conta.pagamentosMensais[chaveAtual] = true;
+        // Garante que cada conta tenha a estrutura de pagamentosMensais
+        for (var i = 0; i < contasSalvas.length; i++) {
+            if (!contasSalvas[i].pagamentosMensais) {
+                contasSalvas[i].pagamentosMensais = {};
+                if (contasSalvas[i].paga === true) {
+                    var chave = getChaveMesAtual();
+                    contasSalvas[i].pagamentosMensais[chave] = true;
+                }
+                delete contasSalvas[i].paga;
             }
-            delete conta.paga; // Remove a propriedade antiga
         }
-        return conta;
-    });
-
-    localStorage.setItem('contas_app', JSON.stringify(contasSalvas));
-    return contasSalvas;
+        return contasSalvas;
+    } catch (e) {
+        console.error("Erro ao carregar contas:", e);
+        return [];
+    }
 }
 
-let contas = carregarEConvertContas();
+var contas = carregarContas();
 
-// Formata o valor numérico para R$
 function formatarMoeda(valor) {
     return Number(valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
-// ==========================================
-// FUNÇÕES DE AÇÃO (ADICIONAR / ALTERAR / REMOVER)
-// ==========================================
+function salvarDados() {
+    localStorage.setItem('contas_app', JSON.stringify(contas));
+}
 
+// ==========================================
+// ACOES
+// ==========================================
 function adicionarConta(descricao, valor) {
     if (!descricao || !valor) return;
 
-    const novaConta = {
+    var novaConta = {
         id: Date.now(),
         descricao: descricao,
         valor: parseFloat(valor),
-        pagamentosMensais: {} // Objeto vazio: nasce pendente em todos os meses
+        pagamentosMensais: {}
     };
 
     contas.push(novaConta);
@@ -62,37 +64,25 @@ function adicionarConta(descricao, valor) {
 }
 
 function alternarStatusPagamento(idConta) {
-    const chaveMes = getChaveMesAtual();
-
-    contas = contas.map(conta => {
-        if (conta.id === idConta) {
-            if (!conta.pagamentosMensais) {
-                conta.pagamentosMensais = {};
+    var chave = getChaveMesAtual();
+    for (var i = 0; i < contas.length; i++) {
+        if (contas[i].id === idConta) {
+            if (!contas[i].pagamentosMensais) {
+                contas[i].pagamentosMensais = {};
             }
-            // Inverte OBRIGATORIAMENTE o status APENAS do mês selecionado
-            const statusAtual = conta.pagamentosMensais[chaveMes] === true;
-            conta.pagamentosMensais[chaveMes] = !statusAtual;
+            var statusAtual = contas[i].pagamentosMensais[chave] === true;
+            contas[i].pagamentosMensais[chave] = !statusAtual;
         }
-        return conta;
-    });
-
+    }
     salvarDados();
     renderizarApp();
 }
 
 function removerConta(idConta) {
-    contas = contas.filter(conta => conta.id !== idConta);
+    contas = contas.filter(function(c) { return c.id !== idConta; });
     salvarDados();
     renderizarApp();
 }
-
-function salvarDados() {
-    localStorage.setItem('contas_app', JSON.stringify(contas));
-}
-
-// ==========================================
-// NAVEGAÇÃO ENTRE MESES
-// ==========================================
 
 function alterarMes(delta) {
     mesSelecionado += delta;
@@ -107,74 +97,75 @@ function alterarMes(delta) {
 }
 
 // ==========================================
-// RENDERIZAÇÃO DA TELA
+// RENDERIZAÇÃO NA TELA
 // ==========================================
-
 function renderizarApp() {
-    const containerContas = document.getElementById('listaContas');
-    const labelMesAno = document.getElementById('labelMesAno');
-    const totalPendenteEl = document.getElementById('totalPendente');
-    const totalPagoEl = document.getElementById('totalPago');
+    var containerContas = document.getElementById('listaContas');
+    var labelMesAno = document.getElementById('labelMesAno');
+    var totalPendenteEl = document.getElementById('totalPendente');
+    var totalPagoEl = document.getElementById('totalPago');
 
-    const nomesMeses = [
+    var nomesMeses = [
         "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
         "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
     ];
 
     if (labelMesAno) {
-        labelMesAno.innerText = `${nomesMeses[mesSelecionado - 1]} de ${anoSelecionado}`;
+        labelMesAno.innerText = nomesMeses[mesSelecionado - 1] + ' de ' + anoSelecionado;
     }
 
-    const chaveMes = getChaveMesAtual();
-    let totalPendente = 0;
-    let totalPago = 0;
+    var chave = getChaveMesAtual();
+    var totalPendente = 0;
+    var totalPago = 0;
 
     if (containerContas) {
         containerContas.innerHTML = '';
 
         if (contas.length === 0) {
             containerContas.innerHTML = '<p class="sem-contas">Nenhuma conta cadastrada.</p>';
+        } else {
+            contas.forEach(function(conta) {
+                var estaPaga = conta.pagamentosMensais && conta.pagamentosMensais[chave] === true;
+
+                if (estaPaga) {
+                    totalPago += conta.valor;
+                } else {
+                    totalPendente += conta.valor;
+                }
+
+                var itemDiv = document.createElement('div');
+                itemDiv.className = 'item-conta ' + (estaPaga ? 'paga' : 'pendente');
+                
+                var checkedAttr = estaPaga ? 'checked' : '';
+                
+                itemDiv.innerHTML = 
+                    '<div class="info-conta">' +
+                        '<input type="checkbox" ' + checkedAttr + ' onchange="alternarStatusPagamento(' + conta.id + ')">' +
+                        '<span class="descricao">' + conta.descricao + '</span>' +
+                        '<span class="valor">' + formatarMoeda(conta.valor) + '</span>' +
+                    '</div>' +
+                    '<button class="btn-deletar" onclick="removerConta(' + conta.id + ')">✕</button>';
+
+                containerContas.appendChild(itemDiv);
+            });
         }
-
-        contas.forEach(conta => {
-            // Checa EXCLUSIVAMENTE o mês atual
-            const estaPagaNoMes = conta.pagamentosMensais && conta.pagamentosMensais[chaveMes] === true;
-
-            if (estaPagaNoMes) {
-                totalPago += conta.valor;
-            } else {
-                totalPendente += conta.valor;
-            }
-
-            const itemDiv = document.createElement('div');
-            itemDiv.className = `item-conta ${estaPagaNoMes ? 'paga' : 'pendente'}`;
-            itemDiv.innerHTML = `
-                <div class="info-conta">
-                    <input type="checkbox" ${estaPagaNoMes ? 'checked' : ''} onchange="alternarStatusPagamento(${conta.id})">
-                    <span class="descricao">${conta.descricao}</span>
-                    <span class="valor">${formatarMoeda(conta.valor)}</span>
-                </div>
-                <button class="btn-deletar" onclick="removerConta(${conta.id})">✕</button>
-            `;
-            containerContas.appendChild(itemDiv);
-        });
     }
 
     if (totalPendenteEl) totalPendenteEl.innerText = formatarMoeda(totalPendente);
     if (totalPagoEl) totalPagoEl.innerText = formatarMoeda(totalPago);
 }
 
-// Evento Inicial
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('formConta');
+// Executa ao carregar a página
+window.onload = function() {
+    var form = document.getElementById('formConta');
     if (form) {
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', function(e) {
             e.preventDefault();
-            const desc = document.getElementById('descConta').value;
-            const valor = document.getElementById('valorConta').value;
+            var desc = document.getElementById('descConta').value;
+            var valor = document.getElementById('valorConta').value;
             adicionarConta(desc, valor);
             form.reset();
         });
     }
     renderizarApp();
-});
+};

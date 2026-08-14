@@ -4,43 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evandro App</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="EVANDRO_APP_v0.2.0/css/style.css">
 </head>
 <body>
-
     <div class="container">
-        <!-- TOPO DO APP COM NAVEGAÇÃO DE MÊS/ANO -->
-        <div class="topo-app">
-            <button onclick="alterarMes(-1)" class="btn-navegacao">❮</button>
-            <h1 id="labelMesAno">Carregando...</h1>
-            <button onclick="alterarMes(1)" class="btn-navegacao">❯</button>
+        <!-- Navegação de Mês -->
+        <div class="header-mes">
+            <button class="btn-nav" onclick="alterarMes(-1)">❮</button>
+            <h2 id="labelMesAno">Carregando...</h2>
+            <button class="btn-nav" onclick="alterarMes(1)">❯</button>
         </div>
 
-        <!-- RESUMO DOS TOTAIS -->
-        <div class="container-totais">
-            <div class="card-total pendente">
+        <!-- Resumo Financeiro -->
+        <div class="resumo-cards">
+            <div class="card pendente">
                 <span>Pendente</span>
-                <span id="totalPendente">R$ 0,00</span>
+                <h3 id="totalPendente">R$ 0,00</h3>
             </div>
-            <div class="card-total pago">
+            <div class="card pago">
                 <span>Pago</span>
-                <span id="totalPago">R$ 0,00</span>
+                <h3 id="totalPago">R$ 0,00</h3>
             </div>
         </div>
 
-        <!-- FORMULÁRIO PARA ADICIONAR CONTA -->
+        <!-- Formulário para adicionar conta -->
         <form id="formConta" class="form-conta">
             <input type="text" id="descConta" placeholder="Descrição da conta (ex: Luz)" required>
             <input type="number" id="valorConta" placeholder="Valor R$" step="0.01" required>
-            <button type="submit" class="btn-add">Adicionar</button>
+            <button type="submit">Adicionar</button>
         </form>
 
-        <!-- LISTA DE CONTAS -->
-        <div id="listaContas" class="lista-contas">
-            <!-- As contas serão carregadas aqui via app.js -->
-        </div>
+        <!-- Lista de Contas -->
+        <div id="listaContas" class="lista-contas"></div>
     </div>
 
-    <script src="app.js"></script>
+    <script src="EVANDRO_APP_v0.2.0/js/app.js"></script>
 </body>
 </html>

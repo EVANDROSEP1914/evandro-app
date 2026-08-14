@@ -1,0 +1,17 @@
+{
+  "name": "EVANDRO APP",
+  "short_name": "Evandro",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#087f23",
+  "theme_color": "#087f23",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "description": "Controle financeiro pessoal do Evandro.",
+  "lang": "pt-BR"
+}

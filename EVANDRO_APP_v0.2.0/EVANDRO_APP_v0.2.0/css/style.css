@@ -1,0 +1,171 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f4f4f9;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 450px;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* TOPO DO APP E NAVEGAÇÃO */
+.topo-app {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background-color: #006400; /* Verde escuro */
+    color: white;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.topo-app h1 {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.btn-navegacao {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.4rem;
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+.btn-navegacao:active {
+    opacity: 0.6;
+}
+
+/* CARDS DE TOTAIS */
+.container-totais {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.card-total {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    color: white;
+}
+
+.card-total.pendente {
+    background-color: #d9534f; /* Vermelho */
+}
+
+.card-total.pago {
+    background-color: #2e7d32; /* Verde */
+}
+
+.card-total span:first-child {
+    font-size: 0.8rem;
+    display: block;
+    opacity: 0.9;
+}
+
+.card-total span:last-child {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+/* FORMULÁRIO DE CADASTRO */
+.form-conta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.form-conta input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.btn-add {
+    padding: 10px;
+    background-color: #006400;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.btn-add:active {
+    opacity: 0.8;
+}
+
+/* LISTA DE CONTAS */
+.lista-contas {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.item-conta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    border-left: 5px solid #d9534f;
+}
+
+.item-conta.paga {
+    border-left-color: #2e7d32;
+    background-color: #e8f5e9;
+}
+
+.info-conta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.info-conta .descricao {
+    flex: 1;
+    font-weight: 500;
+}
+
+.info-conta .valor {
+    font-weight: bold;
+}
+
+.btn-deletar {
+    background: none;
+    border: none;
+    color: #d9534f;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.sem-contas {
+    text-align: center;
+    color: #777;
+    font-size: 0.9rem;
+    padding: 10px 0;
+}
