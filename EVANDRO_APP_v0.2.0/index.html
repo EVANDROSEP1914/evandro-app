@@ -4,7 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evandro App - Controle Financeiro</title>
-    <link rel="stylesheet" href="EVANDRO_APP_v0.2.0/css/style.css">
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f6f8; margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .container { background: #ffffff; padding: 24px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 400px; }
+        .header-app .user-info span { font-size: 11px; font-weight: bold; color: #8e8e93; letter-spacing: 0.5px; }
+        .header-app .user-info h1 { margin: 4px 0 16px 0; font-size: 24px; color: #1c1c1e; }
+        .header-mes { display: flex; align-items: center; justify-content: space-between; background: #f2f2f7; padding: 8px 16px; border-radius: 12px; margin-bottom: 20px; }
+        .btn-nav { background: #ffffff; border: none; font-size: 14px; border-radius: 8px; width: 32px; height: 32px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        #labelMesAno { font-weight: 600; color: #1c1c1e; font-size: 15px; }
+        .card-saldo-verde { background: linear-gradient(135deg, #0d8a3d, #05632a); color: white; padding: 20px; border-radius: 16px; margin-bottom: 20px; box-shadow: 0 8px 16px rgba(13, 138, 61, 0.2); }
+        .card-saldo-verde span { font-size: 13px; opacity: 0.9; }
+        .card-saldo-verde h2 { font-size: 32px; margin: 8px 0 16px 0; font-weight: bold; }
+        .sub-totais { display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 12px; }
+        .sub-totais small { display: block; font-size: 12px; opacity: 0.8; }
+        .sub-totais strong { font-size: 16px; }
+        .form-conta { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .form-conta input { padding: 12px 14px; border: 1px solid #e5e5ea; border-radius: 10px; font-size: 14px; outline: none; }
+        .form-conta button { background: #1c1c1e; color: white; border: none; padding: 14px; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        .lista-contas { font-size: 14px; color: #8e8e93; text-align: center; }
+        .item-conta { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f2f2f7; text-align: left; color: #1c1c1e; }
+        .item-conta.paga { opacity: 0.5; text-decoration: line-through; }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -50,6 +70,38 @@
         <div id="listaContas" class="lista-contas"></div>
     </div>
 
-    <script src="EVANDRO_APP_v0.2.0/js/app.js"></script>
+    <script>
+        var dataAtual = new Date();
+        var mesAtual = dataAtual.getMonth();
+        var anoAtual = dataAtual.getFullYear();
+
+        var meses = [
+            "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+            "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+        ];
+
+        function renderizarApp() {
+            var label = document.getElementById('labelMesAno');
+            if (label) {
+                label.innerText = meses[mesAtual] + " de " + anoAtual;
+            }
+        }
+
+        function alterarMes(direcao) {
+            mesAtual += direcao;
+            if (mesAtual < 0) {
+                mesAtual = 11;
+                anoAtual--;
+            } else if (mesAtual > 11) {
+                mesAtual = 0;
+                anoAtual++;
+            }
+            renderizarApp();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderizarApp();
+        });
+    </script>
 </body>
 </html>
