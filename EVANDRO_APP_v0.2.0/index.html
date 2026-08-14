@@ -3,35 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evandro App</title>
+    <title>Evandro App - Controle Financeiro</title>
     <link rel="stylesheet" href="EVANDRO_APP_v0.2.0/css/style.css">
 </head>
 <body>
     <div class="container">
-        <!-- Navegação de Mês -->
-        <div class="header-mes">
-            <button class="btn-nav" onclick="alterarMes(-1)">❮</button>
-            <h2 id="labelMesAno">Carregando...</h2>
-            <button class="btn-nav" onclick="alterarMes(1)">❯</button>
-        </div>
-
-        <!-- Resumo Financeiro -->
-        <div class="resumo-cards">
-            <div class="card pendente">
-                <span>Pendente</span>
-                <h3 id="totalPendente">R$ 0,00</h3>
+        <!-- Topo / Header -->
+        <div class="header-app">
+            <div class="user-info">
+                <span>BOM DIA</span>
+                <h1>Olá, Evandro! 👋</h1>
             </div>
-            <div class="card pago">
-                <span>Pago</span>
-                <h3 id="totalPago">R$ 0,00</h3>
+            
+            <!-- Navegação de Mês -->
+            <div class="header-mes">
+                <button class="btn-nav" onclick="alterarMes(-1)">❮</button>
+                <span id="labelMesAno">Carregando...</span>
+                <button class="btn-nav" onclick="alterarMes(1)">❯</button>
             </div>
         </div>
 
-        <!-- Formulário para adicionar conta -->
+        <!-- Card de Saldo Geral -->
+        <div class="card-saldo-verde">
+            <span>Saldo do mês</span>
+            <h2 id="saldoTotal">R$ 0,00</h2>
+            <div class="sub-totais">
+                <div>
+                    <small>Pendente</small>
+                    <strong id="totalPendente">R$ 0,00</strong>
+                </div>
+                <div>
+                    <small>Pago</small>
+                    <strong id="totalPago">R$ 0,00</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form para Adicionar Conta -->
         <form id="formConta" class="form-conta">
             <input type="text" id="descConta" placeholder="Descrição da conta (ex: Luz)" required>
             <input type="number" id="valorConta" placeholder="Valor R$" step="0.01" required>
-            <button type="submit">Adicionar</button>
+            <button type="submit">+ Adicionar</button>
         </form>
 
         <!-- Lista de Contas -->
