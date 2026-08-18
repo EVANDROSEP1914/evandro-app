@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Evandro App - Controle Financeiro</title>
     <style>
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
@@ -90,18 +90,6 @@
 
         function getContas() {
             var dados = localStorage.getItem(getChaveStorage());
-            
-            // Busca emergencial: Varre todas as chaves antigas do navegador para trazer seus dados de volta!
-            if (!dados) {
-                var chavesAntigas = ['contas', 'contas_v3_' + anoAtual + '_' + mesAtual];
-                for (var i = 0; i < chavesAntigas.length; i++) {
-                    var antigo = localStorage.getItem(chavesAntigas[i]);
-                    if (antigo && antigo !== '[]') {
-                        localStorage.setItem(getChaveStorage(), antigo);
-                        return JSON.parse(antigo);
-                    }
-                }
-            }
             return dados ? JSON.parse(dados) : [];
         }
 
